@@ -1,9 +1,10 @@
 package com.somitsolutions.training.java.restaurant;
 
-public class Table {
+import java.util.Observable;
+
+public class Table extends Observable{
 	
 	private boolean mOccupied;
-	//private int mCustomerId;
 	
 	public Table(){
 		mOccupied = false;
@@ -16,15 +17,15 @@ public class Table {
 	
 	public void bookTable(){
 		mOccupied = true;
+		
 	}
 	
 	public void releaseTable(){
 		mOccupied = false;
+		setChanged();
+		notifyObservers();
 		
 	}
-/*
-	public int getCustomerId() {
-		return mCustomerId;
-	}*/
+
 }
 

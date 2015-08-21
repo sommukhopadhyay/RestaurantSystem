@@ -49,5 +49,13 @@ public class Customer{
 	public void setCustomerName(String mCustomerName) {
 		this.mCustomerName = mCustomerName;
 	}
+	
+	public Customer findCustomer(int id ){
+		
+		if(id == mCustomerId){
+			return this;
+		}
+		return null;
+	}
 }
 

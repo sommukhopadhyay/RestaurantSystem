@@ -12,12 +12,6 @@ public class Bill {
 		mCustomer = customer;
 		
 	}
-	/*public Order getOrder() {
-		return mOrder;
-	}
-	public void setOrder(Order mOrder) {
-		this.mOrder = mOrder;
-	}*/
 	
 	public float calculateTotal(){
 		

@@ -15,14 +15,10 @@ public class RestaurantSystem {
 				System.out.println("Is there a new customer?");
 				String ans = myScan.nextLine();
 				if(ans.equalsIgnoreCase("Y")){
-					customer = new Customer();
-					System.out.println("Please enter customer name...");
-					String customerName = myScan.nextLine();
-					customer.setCustomerName(customerName);
-					restaurant.addNewCustomer(customer);
-					if(restaurant.isAllTableOccupied() == false){
-						restaurant.bookATable();
-						restaurant.getMenu().display();
+					customer = restaurant.getReceptionist().createNewCustomer();
+					if(restaurant.getReceptionist().isAllTableOccupied() == false){
+						restaurant.getReceptionist().bookATable();
+						restaurant.getWaiter().displayMenu();
 						System.out.println("Choose Menu from the above List");
 						System.out.println("How many items do you want to order?");
 						int number_of_items = myScan.nextInt();
@@ -43,31 +39,99 @@ public class RestaurantSystem {
 						System.out.println("Sorry all tables are occupied... Please wait...");
 						System.out.println("Has anybody finished?");
 						System.out.println("Occupied tables are:");
-						Restaurant.getRestaurant().displayOccupiedTable();
-						System.out.println("Enter -9 if noone has finished...");
+						restaurant.getReceptionist().displayOccupiedTable();
+						System.out.println("Enter the Table number. Enter -9 if no one has finished...");
 						tableId = Integer.parseInt(myScan.nextLine());
-						//customerId = Integer.parseInt(myScan.nextLine());
-						//Customer customerDone = restaurant.getCustomer(customerId);
-						//customerDone.iAmDone();
 						if(tableId != -9 ){
-							restaurant.generateBill(tableId);
-							restaurant.releaseTable(tableId);
+							restaurant.getCashier().generateBill(tableId);
+							restaurant.getCashier().sayGoodBye(tableId);
+							restaurant.getWaiter().releaseTable(tableId);
+							
+
+							restaurant.getWaiter().displayMenu();
+							System.out.println("Choose Menu from the above List");
+							System.out.println("How many items do you want to order?");
+							int number_of_items = myScan.nextInt();
+							for (int i = 0; i<number_of_items; i++){
+								System.out.println("Choose from the numbers at the leftmost position");
+								int item_position = myScan.nextInt();
+								System.out.println("How many plates of menu item " + item_position + " you want to order");
+								int number_of_plates = myScan.nextInt();
+								if(i == number_of_items - 1){
+									myScan.nextLine();
+								}
+								
+								Item item = restaurant.getMenu().getMenu().get(item_position);
+								Customer current = restaurant.getReceptionist().getCurrentCustomer();
+								//System.out.println(current.getCustomerName());
+								current.giveOrder(item, number_of_plates);
+							}
 						}
-						
+						/*
+						restaurant.getWaiter().displayMenu();
+						System.out.println("Choose Menu from the above List");
+						System.out.println("How many items do you want to order?");
+						int number_of_items = myScan.nextInt();
+						for (int i = 0; i<number_of_items; i++){
+							System.out.println("Choose from the numbers at the leftmost position");
+							int item_position = myScan.nextInt();
+							System.out.println("How many plates of menu item " + item_position + " you want to order");
+							int number_of_plates = myScan.nextInt();
+							if(i == number_of_items - 1){
+								myScan.nextLine();
+							}
+							
+							Item item = restaurant.getMenu().getMenu().get(item_position);
+							Customer current = restaurant.getReceptionist().getCurrentCustomer();
+							//System.out.println(current.getCustomerName());
+							current.giveOrder(item, number_of_plates);
+						}*/
+						else{
+							continue;
+						}
 					}
 				}
 				else {
-					if(restaurant.isAnyTableOccupied() == true){
+					if(restaurant.getReceptionist().isAnyTableOccupied() == true){
 					//System.out.println("There are still some customers");
 					System.out.println("Has anybody finished?");
-					System.out.println("Enter -9 if noone has finished...");
+					System.out.println("Enter the table number. Enter -9 if no one has finished...");
 					System.out.println("Occupied tables are:");
-					Restaurant.getRestaurant().displayOccupiedTable();
+					restaurant.getReceptionist().displayOccupiedTable();
 					int numberTable = myScan.nextInt();
 					myScan.nextLine();
 					if(numberTable != -9){
-						restaurant.generateBill(numberTable);
-						restaurant.releaseTable(numberTable);
+						restaurant.getCashier().generateBill(numberTable);
+						restaurant.getCashier().sayGoodBye(numberTable);
+						restaurant.getWaiter().releaseTable(numberTable);
+						
+						if(restaurant.getReceptionist().isAllTableOccupied() == false){
+							continue;
+						}
+						restaurant.getWaiter().displayMenu();
+						System.out.println("Choose Menu from the above List");
+						System.out.println("How many items do you want to order?");
+						int number_of_items = myScan.nextInt();
+						for (int i = 0; i<number_of_items; i++){
+							System.out.println("Choose from the numbers at the leftmost position");
+							int item_position = myScan.nextInt();
+							System.out.println("How many plates of menu item " + item_position + " you want to order");
+							int number_of_plates = myScan.nextInt();
+							if(i == number_of_items - 1){
+								myScan.nextLine();
+							}
+							
+							Item item = restaurant.getMenu().getMenu().get(item_position);
+							Customer current = restaurant.getReceptionist().getCurrentCustomer();
+							//System.out.println(current.getCustomerName());
+							current.giveOrder(item, number_of_plates);
+						}
+						
+						
+						////////////////
+						}
+					else {
+						continue;
 					}
 					
 					}
