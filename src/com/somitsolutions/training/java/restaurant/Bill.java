@@ -7,6 +7,7 @@ public class Bill {
 	//private Order mOrder;
 	private int mBillId;//this is the same as orderId
 	private Customer mCustomer;
+	
 	public Bill(int Id, Customer customer){
 		mBillId = Id;
 		mCustomer = customer;

@@ -3,15 +3,19 @@ package com.somitsolutions.training.java.restaurant;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Deque;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Observer;
+
+
 
 
 public class Restaurant {
 	public static final int MAX_NUMBER_OF_TABLES = 2;
 	private List<Table> mTables;
 	//whenever a new customer comes we add him to the front of this queue
-	private Deque<Customer> mCustomerQueue; 
+	private Deque<Customer> mCustomerQueue;
+	private List<Customer> customerServed;
 	private Menu mMenu;
 	private List<Bill> billStore;
 	private static Restaurant mResturantObject = null; 
@@ -31,6 +35,7 @@ public class Restaurant {
 		billStore = new ArrayList<Bill>();
 		mCustomerQueue = new ArrayDeque<Customer>(5);
 		customerArray = new ArrayList<Customer>();
+		setCustomerServed(new ArrayList<Customer>());
 		//currentCustomer = null;
 		for(int i = 0; i < MAX_NUMBER_OF_TABLES; i++){
 			Table t = new Table();
@@ -67,7 +72,15 @@ public class Restaurant {
 	}
 	
 	public Customer getCustomer(int customerId){
-		return customerArray.get(customerId);
+		Iterator it = (Iterator) customerArray.iterator();
+		
+		while(it.hasNext()){
+			Customer c = (Customer) it.next();
+			if(customerId == c.getCustomerId()){
+				return c;
+			}
+		}
+		return null;
 	}
 	
 	
@@ -91,8 +104,8 @@ public class Restaurant {
 		return (Waiter)waiter;
 	}
 	
-	public void addCustomerToTheServingArray(int id, Customer customer){
-		customerArray.add(id, customer);
+	public void addCustomerToTheServingArray(Customer customer){
+		customerArray.add(customer);
 	}
 	public void bookTable(int tableNumber){
 		mTables.get(tableNumber).bookTable();
@@ -105,9 +118,17 @@ public class Restaurant {
 	public void addNewBill(Bill bill){
 		billStore.add(bill);
 	}
+
+	public List<Customer> getCustomerServed() {
+		return customerServed;
+	}
+
+	public void setCustomerServed(List<Customer> customerServed) {
+		this.customerServed = customerServed;
+	}
 	
 	public void sayGoodBye(Customer customer){
-		//customerArray.remove(customer);	
+		customerArray.remove(customer);	
 	}
 }
 

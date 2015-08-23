@@ -1,5 +1,7 @@
 package com.somitsolutions.training.java.restaurant;
 
+import java.util.Iterator;
+
 public class Waiter extends Employee {
 
 	public Waiter(){
@@ -18,19 +20,20 @@ public class Waiter extends Employee {
 	
 	public void releaseTable(int tableId){
 		if(Restaurant.getRestaurant().getTables().get(tableId).isOccupied() == true){
+			Iterator it = Restaurant.getRestaurant().getCustomerArray().iterator();
+			while(it.hasNext()){
+				Customer c = (Customer) it.next();
+				if(tableId == c.getAllocatedTableId()){
+					Restaurant.getRestaurant().getReceptionist().setLastCustomerServed(c);
+				}
+			}
 			Restaurant.getRestaurant().releaseTable(tableId);
-			
-			
-			//mTables.remove(tableId);
-			//System.out.println("Table number" + tableId + "is available now...");
-			
 		}
-		/*if(Restaurant.getRestaurant().getCustomerQueue().isEmpty() == false){
-			Restaurant.getRestaurant().getReceptionist().bookATable();
-		}*/
+		
 		
 		if ((Restaurant.getRestaurant().getCustomerQueue().isEmpty() == false) ||  (Restaurant.getRestaurant().getReceptionist().isAnyTableOccupied() == true)){
 			System.out.println("There are still some customers...");
+			/**/
 		}
 		
 		if ((Restaurant.getRestaurant().getCustomerQueue().isEmpty() == true) && (Restaurant.getRestaurant().getReceptionist().isAnyTableOccupied() == false)){

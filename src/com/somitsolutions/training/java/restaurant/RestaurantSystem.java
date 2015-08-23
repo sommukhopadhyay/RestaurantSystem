@@ -1,5 +1,6 @@
 package com.somitsolutions.training.java.restaurant;
 
+import java.util.Iterator;
 import java.util.Scanner;
 
 public class RestaurantSystem {
@@ -10,12 +11,13 @@ public class RestaurantSystem {
 		Restaurant restaurant = Restaurant.getRestaurant();
 		do{
 			int tableId = 0;
-			int customerId = 0;
+			//int customerId = 0;
 			Customer customer = null;
 				System.out.println("Is there a new customer?");
 				String ans = myScan.nextLine();
 				if(ans.equalsIgnoreCase("Y")){
 					customer = restaurant.getReceptionist().createNewCustomer();
+					System.out.println(customer.getCustomerId());
 					if(restaurant.getReceptionist().isAllTableOccupied() == false){
 						restaurant.getReceptionist().bookATable();
 						restaurant.getWaiter().displayMenu();
@@ -42,12 +44,19 @@ public class RestaurantSystem {
 						restaurant.getReceptionist().displayOccupiedTable();
 						System.out.println("Enter the Table number. Enter -9 if no one has finished...");
 						tableId = Integer.parseInt(myScan.nextLine());
+						
 						if(tableId != -9 ){
-							restaurant.getCashier().generateBill(tableId);
-							restaurant.getCashier().sayGoodBye(tableId);
-							restaurant.getWaiter().releaseTable(tableId);
+		
 							
-
+							//System.out.println()
+							restaurant.getWaiter().releaseTable(tableId);
+							Customer customerJustServed = Restaurant.getRestaurant().getReceptionist().getLastCustomerServed();
+							System.out.println(customerJustServed.getCustomerName());
+							System.out.println(customerJustServed.getCustomerId());
+							restaurant.getCashier().generateBill(customerJustServed);
+							restaurant.getCashier().sayGoodBye(customerJustServed);
+							
+							
 							restaurant.getWaiter().displayMenu();
 							System.out.println("Choose Menu from the above List");
 							System.out.println("How many items do you want to order?");
@@ -63,6 +72,7 @@ public class RestaurantSystem {
 								
 								Item item = restaurant.getMenu().getMenu().get(item_position);
 								Customer current = restaurant.getReceptionist().getCurrentCustomer();
+								System.out.println(current.getCustomerName());
 								//System.out.println(current.getCustomerName());
 								current.giveOrder(item, number_of_plates);
 							}
@@ -101,9 +111,11 @@ public class RestaurantSystem {
 					int numberTable = myScan.nextInt();
 					myScan.nextLine();
 					if(numberTable != -9){
-						restaurant.getCashier().generateBill(numberTable);
-						restaurant.getCashier().sayGoodBye(numberTable);
+						
 						restaurant.getWaiter().releaseTable(numberTable);
+						Customer customerJustServed = Restaurant.getRestaurant().getReceptionist().getLastCustomerServed();
+						restaurant.getCashier().generateBill(customerJustServed);
+						restaurant.getCashier().sayGoodBye(customerJustServed);
 						
 						if(restaurant.getReceptionist().isAllTableOccupied() == false){
 							continue;

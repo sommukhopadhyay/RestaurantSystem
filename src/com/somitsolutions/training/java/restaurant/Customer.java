@@ -1,28 +1,34 @@
 package com.somitsolutions.training.java.restaurant;
 
+import java.util.Random;
+
 public class Customer{
-	private int mCustomerId; //this is same as Table id. Each customer is identified
-	private Order mOrder;						//by the table they occupied
+	private int mCustomerId; 
+	private Order mOrder;					
 	private String mCustomerName;
+	private int allocatedTableId;
+	
 	
 
 	public Customer(){
-		mCustomerId = 0;
+		Random r = new Random();
+		mCustomerId = r.nextInt(10000); // A random number between 0 & 10000
 		mOrder = new Order(mCustomerId);
 		//addObserver(Restaurant.getRestaurant());
 	}
 	
-	public Customer(int customerId){
-		mCustomerId = customerId;
+	/*public Customer(int customerId){
+		//mCustomerId = customerId;
 		mOrder = new Order(customerId);
-	}
+	}*/
+	
 	public int getCustomerId() {
 		return mCustomerId;
 	}
 
-	public void setCustomerId(int mCustomerId) {
+	/*public void setCustomerId(int mCustomerId) {
 		this.mCustomerId = mCustomerId;
-	}
+	}*/
 	
 	public void giveOrder(Item item, int numberOfPlates){
 		//Order newOrder = new Order(mCustomerId);
@@ -56,6 +62,14 @@ public class Customer{
 			return this;
 		}
 		return null;
+	}
+
+	public int getAllocatedTableId() {
+		return allocatedTableId;
+	}
+
+	public void setAllocatedTableId(int allocatedTableId) {
+		this.allocatedTableId = allocatedTableId;
 	}
 }
 
